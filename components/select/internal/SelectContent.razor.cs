@@ -295,23 +295,34 @@ namespace AntDesign.Select.Internal
             _compositionInputting = false;
         }
 
-        internal void ClearSearch()
+        /// <summary>
+        /// clear input value after the dropdown is closed if AutoClearSearchValue=true
+        /// </summary>
+        internal void ClearInput()
         {
             _inputString = string.Empty;
+        }
+
+        /// <summary>
+        /// discovery search value after the dropdown is opened
+        /// </summary>
+        internal void DiscoverySearch()
+        {
+            _inputString = SearchValue;
         }
 
         private void SetInputWidth()
         {
             _inputWidth = string.Empty;
-            if (ParentSelect.PrefixIcon != null && ParentSelect.SelectMode == SelectMode.Default)
+            if (ParentSelect.PrefixIcon != null && ParentSelect.Mode == SelectMode.Default)
             {
                 _inputWidth = "left: 22px;";
             }
-            if (ParentSelect.SelectMode != SelectMode.Default)
+            if (ParentSelect.Mode != SelectMode.Default)
             {
                 if (!string.IsNullOrWhiteSpace(_inputString))
                 {
-                    _inputWidth = $"{_inputWidth}width: {4 + _inputString.Length * 8}px;";
+                    _inputWidth = $"{_inputWidth}width: {_inputString.Length}em;";
                     if (ParentSelect.IsResponsive && _lastInputWidth != _inputString.Length)
                     {
                         _lastInputWidth = _inputString.Length;

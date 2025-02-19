@@ -21,7 +21,7 @@
 
 </div>
 
-[![](https://gw.alipayobjects.com/mdn/rms_08e378/afts/img/A*Yl83RJhUE7kAAAAAAAAAAABkARQnAQ)](https://ant-design-blazor.github.io)
+[![](https://gw.alipayobjects.com/mdn/rms_08e378/afts/img/A*Yl83RJhUE7kAAAAAAAAAAABkARQnAQ)](https://antblazor.com)
 
 [English](./README.md) | 简体中文
 
@@ -45,7 +45,7 @@ WebAssembly 静态托管页面示例
 
 ## 🖥 支持环境
 
-- 支持 .NET Core 3.1 / .NET 5 / .NET 6 / .NET 7 / .NET 8。
+- 支持 .NET Core 3.1 / .NET 5 / .NET 6 / .NET 7 / .NET 8 / .NET 9。
 - 支持 WebAssembly 静态文件部署。
 - 支持主流 4 款现代浏览器，以及 Internet Explorer 11+（限 [Blazor Server](https://docs.microsoft.com/en-us/aspnet/core/blazor/supported-platforms?view=aspnetcore-3.1&WT.mc_id=DT-MVP-5003987)）。
 - 支持 [.NET MAUI](https://dotnet.microsoft.com/zh-cn/apps/maui?WT.mc_id=DT-MVP-5003987)、[WPF](https://docs.microsoft.com/en-us/aspnet/core/blazor/hybrid/tutorials/wpf?view=aspnetcore-6.0&WT.mc_id=DT-MVP-5003987)、[Windows Forms](https://docs.microsoft.com/en-us/aspnet/core/blazor/hybrid/tutorials/windows-forms?view=aspnetcore-6.0) 等 Blazor 混合客户端环境中。
@@ -98,10 +98,10 @@ WebAssembly 静态托管页面示例
 
 | 参数              | 说明                                             | 类型                           | 默认值 |
 | ----------------- | ------------------------------------------------ | ------------------------------ | ------ |
-| `-f` \| `--full`  | 如果设置这个参数，会生成所有 Ant Design Pro 页面 | bool                           | false  |
-| `-ho` \| `--host` | 指定托管模型                                     | 'wasm' \| 'server' \| 'hosted' | 'wasm' |
-| `--styles`        | 指定样式构建类型                                 | `css` \| `less`                | `css`  |
-| `--no-restore`    | 如果设置这个参数，就不会自动恢复包引用           | bool                           | false  |
+| `-f` \| `--full`  | 如果设置这个参数，会生成所有 Ant Design Pro 页面    | bool                           | false  |
+| `-ho` \| `--host` | 指定托管模型                                      | 'webapp' \| 'wasm' \| 'server' | 'webapp' |
+| `--styles`        | 指定样式构建类型                                   | `css` \| `less`                | `css`  |
+| `--no-restore`    | 如果设置这个参数，就不会自动恢复包引用               | bool                           | false  |
 
 ### 选择二：在已有项目中引入 Ant Design Blazor
 
@@ -127,6 +127,13 @@ WebAssembly 静态托管页面示例
 
   ```csharp
   @using AntDesign
+  ```
+
+- 适当的位置引入 CSS 和 JS 文件。WebApp 项目在App.razor 中引入，WebAssembly 项目在 index.html 中引入
+
+  ```html
+    <link href="_content/AntDesign/css/ant-design-blazor.css"   rel="stylesheet">
+    < src="_content/AntDesign/js/ant-design-blazor.js"></ script>
   ```
 
 - 为了动态地显示弹出组件，需要在 `App.razor` 中添加一个 `<AntContainer />` 组件。
@@ -171,7 +178,7 @@ WebAssembly 静态托管页面示例
 
 ### 本地
 
-- 先安装 [.NET Core SDK](https://dotnet.microsoft.com/download/dotnet/8.0?WT.mc_id=DT-MVP-5003987) 8.0.100 以上版本
+- 先安装 [.NET Core SDK](https://dotnet.microsoft.com/download/dotnet/9.0?WT.mc_id=DT-MVP-5003987) 9.0.100 以上版本
 - 安装 Node.js（只用于样式文件和互操作所需 TS 文件的构建）
 - 克隆到本地开发
 

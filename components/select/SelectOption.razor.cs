@@ -3,12 +3,12 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
 using AntDesign.Select.Internal;
-using System.Globalization;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Components;
 
 namespace AntDesign
 {
@@ -20,7 +20,7 @@ namespace AntDesign
         [CascadingParameter(Name = "InternalId")] internal Guid InternalId { get; set; }
         [CascadingParameter(Name = "ItemTemplate")] internal RenderFragment<TItem> ItemTemplate { get; set; }
         [CascadingParameter(Name = "Model")] internal SelectOptionItem<TItemValue, TItem> Model { get; set; }
-        [CascadingParameter] internal Select<TItemValue, TItem> SelectParent { get; set; }
+        [CascadingParameter] internal SelectBase<TItemValue, TItem> SelectParent { get; set; }
 
         /// <summary>
         /// Disable this option
@@ -232,7 +232,7 @@ namespace AntDesign
 
         private bool IsAlreadySelected(SelectOptionItem<TItemValue, TItem> selectOption)
         {
-            if (SelectParent.Mode == "default")
+            if (SelectParent.Mode == SelectMode.Default)
             {
                 return EqualityComparer<TItemValue>.Default.Equals(selectOption.Value, SelectParent.Value) ||
                     EqualityComparer<TItemValue>.Default.Equals(selectOption.Value, SelectParent.LastValueBeforeReset);
@@ -251,7 +251,7 @@ namespace AntDesign
                 .If($"{ClassPrefix}-disabled", () => IsDisabled)
                 .If($"{ClassPrefix}-selected", () => IsSelected)
                 .If($"{ClassPrefix}-active", () => IsActive)
-                .If($"{ClassPrefix}-grouped", () => SelectParent.IsGroupingEnabled);
+                .If($"{ClassPrefix}-grouped", () => (SelectParent as Select<TItemValue, TItem>)?.IsGroupingEnabled ?? false);
 
             StateHasChanged();
         }
@@ -273,13 +273,15 @@ namespace AntDesign
             {
                 await SelectParent.SetValueAsync(Model);
 
-                if (SelectParent.SelectMode == SelectMode.Default)
+                if (SelectParent.Mode == SelectMode.Default)
                 {
                     await SelectParent.CloseAsync();
                 }
                 else
                 {
                     await SelectParent.UpdateOverlayPositionAsync();
+
+                    SelectParent.FocusIfInSearch();
                 }
             }
         }
